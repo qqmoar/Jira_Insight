@@ -13,11 +13,13 @@ def insightObject = objectFacade.loadObjectBean(objectKey)
 getDeveloper(insightObject)
 
 def getDeveloper(insightObject) {
+  //  получаем значение аттрибута через айди объекта и айди аттрибута
   def developerKey = objectFacade.loadObjectAttributeBean(insightObject.id, 850).getObjectAttributeValueBeans()?.first()?.getValue()
   return developerKey
 }
 
 def getAnalytic(insightObject) {
+  //  получаем значение аттрибута через айди объекта и айди аттрибута
   def analyticKey = objectFacade.loadObjectAttributeBean(insightObject.id, 851).getObjectAttributeValueBeans()?.first()?.getValue()
   return analyticKey
 }
