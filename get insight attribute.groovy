@@ -17,9 +17,12 @@ getAttributeValue(insightObject, 850)
 //	функции
 //
 def getAttributeValue(insightObject, int attributeId) {
-  //  получаем значение аттрибута через айди объекта и айди аттрибута
+  //  получаем значение аттрибута через айди объекта и айди аттрибута (получает первый объект в списке)
   def attributeVal = objectFacade.loadObjectAttributeBean(insightObject.id, attributeId).getObjectAttributeValueBeans()?.first()?.getValue()
-  //  возвращает String
+  //  получает все объекты из поля аттрибута
+  //  def attributeVal = objectFacade.loadObjectAttributeBean(insightObject.id, attributeId).getObjectAttributeValueBeans()?.collect{it.getValue()}
+  
+  //  возвращает String, если один элемент или array, если много
   return attributeVal
 }
 
