@@ -10,20 +10,13 @@ def insightObject = objectFacade.loadObjectBean(objectKey)
 
 //attribute = objectFacade.loadObjectAttributeBean(insightObject.id, 850).getObjectAttributeValueBeans()[0].getValue()
 
-getDeveloper(insightObject)
+getAttributeValue(insightObjectб 850)
 
-def getDeveloper(insightObject) {
+def getAttributeValue(insightObject, int attributeId) {
   //  получаем значение аттрибута через айди объекта и айди аттрибута
-  def developerKey = objectFacade.loadObjectAttributeBean(insightObject.id, 850).getObjectAttributeValueBeans()?.first()?.getValue()
-  return developerKey
-}
-
-def getAnalytic(insightObject) {
-  //  получаем значение аттрибута через айди объекта и айди аттрибута
-  def analyticKey = objectFacade.loadObjectAttributeBean(insightObject.id, 851).getObjectAttributeValueBeans()?.first()?.getValue()
-  return analyticKey
+  def attributeVal = objectFacade.loadObjectAttributeBean(insightObject.id, attributeId).getObjectAttributeValueBeans()?.first()?.getValue()
+  return attributeVal
 }
 
 
-
-//  есть проблема, что некоторых юзеров получаешь с их usernamе, а какие-то через JIRAUSER9999
+//  есть проблема при аттрибуте с пользаками, потмоу что некоторых юзеров получаешь с их usernamе, а какие-то в виде JIRAUSER9999
