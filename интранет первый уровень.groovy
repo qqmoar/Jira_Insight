@@ -25,7 +25,7 @@ Class iqlFacadeClass = ComponentAccessor.getPluginAccessor().getClassLoader().fi
 iqlFacade = ComponentAccessor.getOSGiComponentInstanceOfType(iqlFacadeClass)
 
 //	юрла и хедеры в инсайт, чтобы обновлять аттрибуты внутри
-def insightURL = "https://jira.vk.team/rest/insight/1.0/object/"
+def insightURL = "https://YOURJIRAADDRESS/rest/insight/1.0/object/"
 Map<String, String> headers = new HashMap<String, String>()
 headers["Content-Type"] = "application/json"
 headers["Authorization"] = "Bearer YOURKEYHERE"
