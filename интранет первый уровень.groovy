@@ -57,7 +57,7 @@ def jsonDraft = jsonSlurper.parseText(insightUpdateDraft)
 //	обращаемся к массиву с объектами аттрибутов
 def attValues = jsonDraft.attributes[0].objectAttributeValues
 //	запрос в интранет
-  def intraURL = "https://home.vk.team/api/v2/units/${unit}/?descendants=1&api_key=API_KEY_JIRA&api_app=jira"
+  def intraURL = "https://home.team/api/v2/units/${unit}/?descendants=1&api_key=API_KEY_JIRA&api_app=jira"
 def req = _.GET(intraURL).objects
 //	получаем название хед юнита
 def headUnit = req.find{it.level == 1}.name
