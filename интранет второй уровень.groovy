@@ -8,7 +8,7 @@
 
 в скрипте сейчас закоменчены изменения, нужно для тестирования результатов. какая-никакая проверка ситуации
 
-скрипт можно прокидывать дальше на 3 уровень и т.д.  ---> меняем 68, 69 строчки
+скрипт можно прокидывать дальше на 3,4,5...999 уровень и т.д.  ---> меняем 70 строчку
 */
 
 
@@ -42,6 +42,7 @@ def unitKeys = [4, 23, 1225, 1789, 1661, 687, 52, 1399, 53, 777, 2359, 54, 124, 
 for (unit in unitKeys){
   // пустышка
   def insightChildrenObjects
+  def insightHeadObjectId
 //	драфт json которым обновляем данные
 //	справочник 143, аттрибут 1218 у объектов, [] - сюда будем значения подпихивать по ключам
 def insightUpdateDraft = """
@@ -61,31 +62,36 @@ def jsonDraft = jsonSlurper.parseText(insightUpdateDraft)
 //	обращаемся к массиву с объектами аттрибутов
 def attValues = jsonDraft.attributes[0].objectAttributeValues
 //	запрос в интранет
-  def intraURL = "https://home.vk.team/api/v2/units/${unit}/?descendants=1&api_key=API_KEY_JIRA&api_app=jira"
+def intraURL = "https://home.team/api/v2/units/${unit}/?descendants=1&api_key=API_KEY_JIRA&api_app=jira"
 def req = _.GET(intraURL).objects
+
   
-  
-//	получаем объекты юнитов второго уровня
-def childUnits = req.findAll{it.level == 2}
+//	получаем объекты юнитов "N" уровня
+def childUnits = req.findAll{it.level == 12}
 
   //	для каждой дочерки
   for (childUnit in childUnits){
+//    if(childUnit.id == 13997) {continue}															//	для уровня 3 обход ошибки
+//    if(childUnit.name.contains("Направление безопасности виртуальных сред")) {continue}			//	для уровня 3 обход ошибки
 //	находим объект в инсайте для дочки дочки юнита---- получаем его айдишку, ее мы будем подставлять в insightURL 
-def insightHeadObjectId = iqlFacade.findObjects("objectTypeId = 143 and Name = \"${childUnit.name}\"")?.first().id
+    if(childUnit.name){
+		insightHeadObjectId = iqlFacade.findObjects("objectTypeId = 143 and Name = \"${childUnit.name.replace('"', "'")}\"").first().id
     res += "название = ${childUnit.name} ---- ключ юнита = ${insightHeadObjectId} <p>"
-
-//	получаем дочерки 3 уровня
+    }
+//	получаем дочерки "N+1" уровня
 def childNames = req.findAll{it.parent_id == childUnit.id}*.name
 
+    
 //	находим объекты в инсайте дочерки
   if(childNames){
-    res += "дочерки 3 уровень = ${childNames} <p>"
+    res += "дочерки 4 уровень = ${childNames} <p>"
+    
   insightChildrenObjects = iqlFacade.findObjects("objectTypeId = 143 and Name in (${childNames.collect { "\"${it.replace('"', "'")}\"" }.join(", ")})")*.id
         res += "${insightChildrenObjects} <p> __________ <p>"
   }else{
     continue
   }
-/*
+
 //	добавляем объекты в наш драфт json
 insightChildrenObjects.each{ attValues.add("value":it)}
 
@@ -96,6 +102,6 @@ def jsonOut = jsonOutput.toJson(jsonDraft)
 //	обновляем данные
 _.PUT(insightURL + insightHeadObjectId, jsonOut, "LOGIN", "PASSWORD")
   Thread.sleep(200)
-*/
+
 }
 }
