@@ -1,10 +1,10 @@
 import com.atlassian.jira.component.ComponentAccessor
 
-//	подключаем классы инсайта
-Class objectFacadeClass = ComponentAccessor.getPluginAccessor().getClassLoader().findClass("com.riadalabs.jira.plugins.insight.channel.external.api.facade.ObjectFacade")
+import com.riadalabs.jira.plugins.insight.channel.external.api.facade.ObjectFacade
+@WithPlugin("com.riadalabs.jira.plugins.insight")
+@PluginModule
+ObjectFacade objectFacade
 
-//	объект класса
-objectFacade = ComponentAccessor.getOSGiComponentInstanceOfType(objectFacadeClass)
 
 //	ключ объекта
 String objectKey = "TEST-719"
@@ -29,3 +29,17 @@ def getAttributeValue(insightObject, int attributeId) {
 
 
 //  есть проблема при аттрибуте с пользаками, потмоу что некоторых юзеров получаешь с их usernamе, а какие-то в виде JIRAUSER9999
+
+
+
+
+
+
+
+/*  ---- старое подключение класса
+//	подключаем классы инсайта
+Class objectFacadeClass = ComponentAccessor.getPluginAccessor().getClassLoader().findClass("com.riadalabs.jira.plugins.insight.channel.external.api.facade.ObjectFacade")
+
+//	объект класса
+objectFacade = ComponentAccessor.getOSGiComponentInstanceOfType(objectFacadeClass)
+*/
